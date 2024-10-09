@@ -44,6 +44,27 @@ class User(BaseModel):
         None, description="The date and time when the user was last updated."
     )
 
+class Order(BaseModel):
+    id: UUID = Field(default_factory=lambda: uuid4(), description="Order ID.")
+    user_id: Optional[UUID] = Field(None, description="User ID connected to a user.") # references user, SET NULL on delete, on database implementation
+    status_id: Optional[UUID] = Field(None, description="Status ID connected to an order_status.") # references order_status, SET NULL on delete, on database implementation
+    total_price: Decimal = Field(..., description="Total price of the order.", gt=0, max_digits=10, decimal_places=2)
+    created_at: datetime = Field(datetime.now, description="Time the order is created at.")
+    updated_at: datetime = Field(None, description="Time of the last update for the order.")
+
+class OrderStatus:
+    id: UUID = Field(default_factory=lambda: uuid4(), description="order_status ID.")
+    name: str = Field(..., description="Name of the order_status.")
+    created_at: datetime = Field(datetime.now, description="Time the order_status is created at.")
+    updated_at: datetime = Field(None, description="Time of the last update for the order_status.")
+
+class OrderProduct:
+    id: UUID = Field(default_factory=lambda: uuid4(), description="order_product ID.")
+    order_id: Optional[UUID] = Field(None, description="Order ID connected to an order.") # references order, CASCADE on delete, on database implementation
+    product_id: Optional[UUID] = Field(None, description="Product ID connected to an Product.") # references product, SET NULL on delete, on database implementation
+    quantity: int = Field(..., description="Quantity of order_products.")
+    created_at: datetime = Field(datetime.now, description="Time the order_product is created at.")
+    updated_at: datetime = Field(None, description="Time of the last update for the order_product.")
 
 class Token(BaseModel):
     access_token: str
