@@ -54,7 +54,7 @@ class Order(BaseModel):
 
 class OrderStatus:
     id: UUID = Field(default_factory=lambda: uuid4(), description="order_status ID.")
-    name: str = Field(..., description="Name of the order_status.")
+    name: str = Field("pending", description="Name of the order_status.", unique=True)
     created_at: datetime = Field(datetime.now, description="Time the order_status is created at.")
     updated_at: datetime = Field(None, description="Time of the last update for the order_status.")
 
@@ -65,6 +65,10 @@ class OrderProduct:
     quantity: int = Field(..., description="Quantity of order_products.")
     created_at: datetime = Field(datetime.now, description="Time the order_product is created at.")
     updated_at: datetime = Field(None, description="Time of the last update for the order_product.")
+
+class OrderItem:
+    product_id: UUID = Field(..., description="The id of the product being ordered.")
+    quantity: int = Field(1, description="The quantity of the product.")
 
 class Token(BaseModel):
     access_token: str

@@ -31,3 +31,28 @@ class StockValidationException(HTTPException):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Stock must be greater than zero.",
         )
+
+from fastapi import HTTPException, status
+
+class ProductDoesNotExistException(HTTPException):
+    def __init__(self, item_number: int = None):
+        if item_number is not None:
+            detail_message = f"Product {item_number} does not exist, enter a valid product_id"
+        else:
+            detail_message = "Product_id does not exist, enter a valid id"
+            
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=detail_message,
+        )
+
+class OutOfStockException(HTTPException):
+    def __init__(self, item_number: int = None):
+        if item_number is not None:
+            detail_message = f"Quantity for product {item_number} is higher than the stock."
+        else:
+            detail_message = "Quantity for the product is higher than the stock."
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=detail_message,
+        )
