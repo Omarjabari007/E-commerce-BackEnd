@@ -32,8 +32,6 @@ class StockValidationException(HTTPException):
             detail="Stock must be greater than zero.",
         )
 
-from fastapi import HTTPException, status
-
 class ProductDoesNotExistException(HTTPException):
     def __init__(self, item_number: int = None):
         if item_number is not None:

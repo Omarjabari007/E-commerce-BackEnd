@@ -1,7 +1,7 @@
 from uuid import uuid4, UUID
 from typing import Optional, Dict, List
 from app.api.exceptions.GlobalException import ProductDoesNotExistException, OutOfStockException
-from app.api.services.order_status import OrderStatusService
+from app.api.services.order_status_service import OrderStatusService
 from app.api.services.product_service import ProductService
 from app.models import Order, OrderItem
 from decimal import Decimal
@@ -26,7 +26,7 @@ class OrderService:
 
             total_price += product.price * item.quantity
         
-        status_id = order_status_service.get_order_status_by_name("pending")
+        status_id = order_status_service.get_order_status_by_name("pending").id
         order = Order(
             id=uuid4(),
             total_price=total_price,
