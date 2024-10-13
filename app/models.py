@@ -1,6 +1,6 @@
 from uuid import uuid4, UUID
 from pydantic import BaseModel, Field, EmailStr, validator
-from typing import Optional
+from typing import List, Optional
 from decimal import Decimal
 from datetime import datetime
 from app.api.exceptions.GlobalException import (
@@ -52,23 +52,32 @@ class Order(BaseModel):
     created_at: datetime = Field(datetime.now, description="Time the order is created at.")
     updated_at: datetime = Field(None, description="Time of the last update for the order.")
 
-class OrderStatus:
+class OrderProductResponse(BaseModel):
+    product_id: UUID = Field(..., description="Product ID connected to the order.")
+    quantity: int = Field(..., description="Quantity of the product in the order.")
+
+class OrderResponse(BaseModel):
+    id: UUID = Field(..., description="Order ID.")
+    user_id: Optional[UUID] = Field(None, description="User ID connected to the order.")
+    status: str = Field(..., description="Status of the order.")  # e.g., "pending"
+    total_price: Decimal = Field(..., description="Total price of the order.", gt=0, max_digits=10, decimal_places=2)
+    created_at: datetime = Field(..., description="Time the order was created.")
+    updated_at: Optional[datetime] = Field(None, description="Time of the last update for the order.")
+    products: List[OrderProductResponse] = Field(..., description="List of products in the order.")
+
+class OrderStatus(BaseModel):
     id: UUID = Field(default_factory=lambda: uuid4(), description="order_status ID.")
     name: str = Field("pending", description="Name of the order_status.", unique=True)
     created_at: datetime = Field(datetime.now, description="Time the order_status is created at.")
     updated_at: datetime = Field(None, description="Time of the last update for the order_status.")
 
-class OrderProduct:
+class OrderProduct(BaseModel):
     id: UUID = Field(default_factory=lambda: uuid4(), description="order_product ID.")
     order_id: Optional[UUID] = Field(None, description="Order ID connected to an order.") # references order, CASCADE on delete, on database implementation
     product_id: Optional[UUID] = Field(None, description="Product ID connected to an Product.") # references product, SET NULL on delete, on database implementation
     quantity: int = Field(..., description="Quantity of order_products.")
     created_at: datetime = Field(datetime.now, description="Time the order_product is created at.")
     updated_at: datetime = Field(None, description="Time of the last update for the order_product.")
-
-class OrderItem:
-    product_id: UUID = Field(..., description="The id of the product being ordered.")
-    quantity: int = Field(1, description="The quantity of the product.")
 
 class Token(BaseModel):
     access_token: str

@@ -3,7 +3,7 @@ from typing import Optional, Dict, List
 from app.api.exceptions.GlobalException import ProductDoesNotExistException, OutOfStockException
 from app.api.services.order_status_service import OrderStatusService
 from app.api.services.product_service import ProductService
-from app.models import Order, OrderItem
+from app.models import Order, OrderProduct, OrderProductResponse, OrderResponse
 from decimal import Decimal
 from fastapi import FastAPI, HTTPException, APIRouter, Query
 
@@ -13,9 +13,11 @@ order_status_service = OrderStatusService()
 class OrderService:
     def __init__(self):
         self.orders: Dict[UUID, Order] = {}
+        self.order_products: Dict[UUID, List[OrderProduct]] = {}
+
 
   
-    def create_order(self, order_items: List[OrderItem], user_id: Optional[UUID] = None) -> Order:
+    def create_order(self, order_items: List[OrderProductResponse], user_id: Optional[UUID] = None) -> Order:
         total_price = Decimal(0)
         for index, item in enumerate(order_items):
             product = self.product_service.get_product(item.product_id)
@@ -36,9 +38,30 @@ class OrderService:
         self.orders.append(order)
 
         return order
-        
 
-        
 
-        
+    def get_order_by_id(self, order_id: UUID) -> OrderResponse:
+        order = self.orders.get(order_id)
+        if not order:
+            raise HTTPException(status_code=404, detail="Order not found")
 
+        order_products = self.order_products.get(order_id, [])
+
+        product_responses = [
+            OrderProductResponse(
+                product_id=item.product_id,
+                quantity=item.quantity
+            ) for item in order_products
+        ]
+
+        status_name = order_status_service.get_order_status_by_name(order.status_id).name
+
+        return OrderResponse(
+            id=order.id,
+            user_id=order.user_id,
+            status=status_name,
+            total_price=order.total_price,
+            created_at=order.created_at,
+            updated_at=order.updated_at,
+            products=product_responses
+        )

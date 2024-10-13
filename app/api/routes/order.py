@@ -27,3 +27,4 @@ def create_product(orderItems : List[OrderItem]):
         status_code=status.HTTP_201_CREATED,
         content=order.dict(exclude={"created_at", "updated_at"})
     )
+
