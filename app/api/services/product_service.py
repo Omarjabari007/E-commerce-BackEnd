@@ -5,7 +5,7 @@ from app.schemas.product import ProductCreate, ProductUpdate
 from app.models import ProductResponse, ProductSearchParams
 from uuid import UUID
 from typing import Any, Dict, Optional, List
-from app.api.exceptions.GlobalException import (
+from app.api.exceptions.global_exceptions import (
     PriceValidationException,
     StockValidationException,
     ProductAlreadyExistsException,

@@ -43,5 +43,4 @@ coverage/
 .vscode/
 .idea/
 
-# Docker
-docker-compose.yml
+.env

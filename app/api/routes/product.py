@@ -3,12 +3,12 @@ from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.schemas.product import ProductCreate, ProductResponse, ProductUpdate
 from app.api.services.product_service import ProductService
-from app.api.exceptions.GlobalException import (
+from app.api.exceptions.global_exceptions import (
     ProductNotFoundException,
     ProductAlreadyExistsException,
     InvalidProductDataException,
 )
-from app.api.dependencies.ProductValidator import ProductValidator
+from app.api.dependencies.product_validator import ProductValidator
 from uuid import UUID
 from app.models import Product, ProductSearchParams
 from typing import Optional, List

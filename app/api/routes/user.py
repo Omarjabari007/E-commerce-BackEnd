@@ -4,7 +4,7 @@ from app.db.database import get_db
 from app.schemas.user import UserCreate, UserResponse
 from app.api.services.user_service import UserService
 from app.api.dependencies.password_utils import validate_password
-from app.api.exceptions.GlobalException import (
+from app.api.exceptions.global_exceptions import (
     InvalidPasswordException,
     EmailAlreadyExistsException,
     UserNotFoundException,
