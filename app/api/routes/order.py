@@ -1,5 +1,5 @@
 from uuid import UUID
-from app.api.exceptions.GlobalException import OrderNotFoundException, OutOfStockException, ProductDoesNotExistException
+from app.api.exceptions.GlobalException import InternalServerErrorException, OrderNotFoundException, OutOfStockException, ProductDoesNotExistException
 from app.api.routes import status
 from app.api.services.order_service import OrderService
 from fastapi import FastAPI, HTTPException, APIRouter
@@ -22,8 +22,7 @@ def create_product(orderItems : List[OrderItem]):
     except OutOfStockException as noStock:
         raise noStock
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
-                            detail=f"An unexpected error occurred: {str(e)}")  
+        raise InternalServerErrorException()
 
     return JSONResponse(
         status_code=status.HTTP_201_CREATED,
@@ -37,8 +36,7 @@ def get_order_details(order_id: UUID):
     except HTTPException as e:
         raise e
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
-                            detail=f"An unexpected error occurred: {str(e)}")
+        raise InternalServerErrorException()
     
     return order_details
 
@@ -50,8 +48,7 @@ def update_order_status(order_id: UUID, status_name: str):
     except HTTPException as e:
         raise e
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
-                            detail=f"An unexpected error occurred: {str(e)}")
+        raise InternalServerErrorException()
     
     #Returns 200 OK
     return updated_order_response
@@ -65,8 +62,7 @@ def cancel_order(order_id: UUID):
     except HTTPException as e:
         raise e
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
-                            detail=f"An unexpected error occurred: {str(e)}")
+        raise InternalServerErrorException()
 
     # Returns 204 No Content
     return None

@@ -68,3 +68,10 @@ class StatusNotFoundException(HTTPException):
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Status not found",
         )
+
+class InternalServerErrorException(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+            detail=f"An unexpected error occurred."
+        )
