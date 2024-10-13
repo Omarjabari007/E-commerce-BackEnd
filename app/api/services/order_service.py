@@ -1,6 +1,6 @@
 from uuid import uuid4, UUID
 from typing import Optional, Dict, List
-from app.api.exceptions.GlobalException import ProductDoesNotExistException, OutOfStockException
+from app.api.exceptions.GlobalException import OrderNotFoundException, ProductDoesNotExistException, OutOfStockException
 from app.api.services.order_status_service import OrderStatusService
 from app.api.services.product_service import ProductService
 from app.models import Order, OrderProduct, OrderProductResponse, OrderResponse
@@ -43,7 +43,7 @@ class OrderService:
     def get_order_by_id(self, order_id: UUID) -> OrderResponse:
         order = self.orders.get(order_id)
         if not order:
-            raise HTTPException(status_code=404, detail="Order not found")
+            raise OrderNotFoundException()
 
         order_products = self.order_products.get(order_id, [])
 
