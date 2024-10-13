@@ -22,40 +22,10 @@ class User(Base):
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    # updated_at: Mapped[datetime] = mapped_column(DateTime, nullable=True)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
-
-
-class UserDTO(BaseModel):
-    username: str = Field(None)
-    email: EmailStr = Field(None)
-    password: str = Field(None)
-
-
-class UserResponse(BaseModel):
-    id: UUID
-    username: str
-    email: EmailStr
-    is_admin: bool
-    is_active: bool
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        from_attributes = True
-        orm_mode = True
-        arbitrary_types_allowed = True
-
-
-class UserUpdateDTO(BaseModel):
-    username: str = Field(None)
-    password: str = Field(None)
-
-    class Config:
-        from_attributes = True
-        orm_mode = True
-        arbitrary_types_allowed = True
 
 
 class Product(Base):
@@ -73,62 +43,3 @@ class Product(Base):
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
     )
-
-
-class ProductDTO(BaseModel):
-    name: str = Field(None)
-    description: str = Field(None)
-    price: float = Field(None)
-    stock: int = Field(None)
-    is_available: bool = Field(None)
-
-    class Config:
-        from_attributes = True
-        orm_mode = True
-        arbitrary_types_allowed = True
-
-
-class ProductResponse(BaseModel):
-    id: uuid.UUID
-    name: str
-    description: Optional[str] = None
-    price: float
-    stock: int
-    is_available: bool
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        from_attributes = True
-        orm_mode = True
-        arbitrary_types_allowed = True
-
-
-class ProductUpdateDTO(BaseModel):
-    name: str = Field(None)
-    description: str = Field(None)
-    price: float = Field(None)
-    stock: int = Field(None)
-    is_available: bool = Field(None)
-
-    class Config:
-        from_attributes = True
-        orm_mode = True
-        arbitrary_types_allowed = True
-
-
-class ProductSearchParams(BaseModel):
-    name: Optional[str] = Field(
-        default=None, description="Partial or full product name"
-    )
-    min_price: Optional[Decimal] = Field(default=None, description="Minimum price")
-    max_price: Optional[Decimal] = Field(default=None, description="Maximum price")
-    isAvailable: Optional[bool] = Field(
-        default=None, description="Filter by availability"
-    )
-    page: int = Field(default=1, ge=1, description="Page number for pagination")
-    page_size: int = Field(
-        default=20, ge=1, le=100, description="Number of products per page"
-    )
-    sort_by: str = Field(default="name", description="Sort by field")
-    sort_order: str = Field(default="asc", description="Sort order: asc or desc")

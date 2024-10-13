@@ -62,3 +62,19 @@ class InvalidProductDataException(HTTPException):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail={"product_errors": errors},
         )
+
+
+class InvalidUUIDException(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="The provided user ID is not a valid UUID.",
+        )
+
+
+class ProductValidationException(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="The provided product is not validated ! .",
+        )
