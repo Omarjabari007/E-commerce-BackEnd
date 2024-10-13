@@ -92,8 +92,7 @@ class OrderService:
         status = order_status_service.get_order_status_by_name('pending')
         if not order:
             raise OrderNotFoundException()
-        
-        if order.status_id != status.id:
+        elif order.status_id != status.id:
             raise HTTPException(            
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Only pending orders can be canceled."

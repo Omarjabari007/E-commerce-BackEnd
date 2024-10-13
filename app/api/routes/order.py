@@ -1,5 +1,5 @@
 from uuid import UUID
-from app.api.exceptions.GlobalException import OutOfStockException, ProductDoesNotExistException
+from app.api.exceptions.GlobalException import OrderNotFoundException, OutOfStockException, ProductDoesNotExistException
 from app.api.routes import status
 from app.api.services.order_service import OrderService
 from fastapi import FastAPI, HTTPException, APIRouter
@@ -43,7 +43,7 @@ def get_order_details(order_id: UUID):
     return order_details
 
 @router.put("/orders/{order_id}/status", response_model=OrderResponse)
-async def update_order_status(order_id: UUID, status_name: str):
+def update_order_status(order_id: UUID, status_name: str):
     # TODO: Implement admin authorization check when dependency is available
     try:
         updated_order_response = order_service.update_order_status(order_id, status_name)
@@ -52,7 +52,23 @@ async def update_order_status(order_id: UUID, status_name: str):
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
                             detail=f"An unexpected error occurred: {str(e)}")
-
+    
+    #Returns 200 OK
     return updated_order_response
+
+@router.delete("/orders/{order_id}", status_code=status.HTTP_204_NO_CONTENT)
+def cancel_order(order_id: UUID):
+    # TODO: Implement user authentication check when dependency is available
+
+    try:
+        order_service.cancel_order(order_id)
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+                            detail=f"An unexpected error occurred: {str(e)}")
+
+    # Returns 204 No Content
+    return None
 
 
