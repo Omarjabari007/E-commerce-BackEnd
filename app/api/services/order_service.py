@@ -85,3 +85,19 @@ class OrderService:
             created_at=order.created_at.isoformat(),
             updated_at=order.updated_at.isoformat()
         )
+    
+
+    def cancel_order(self, order_id: UUID) -> None:
+        order = self.orders.get(order_id)
+        status = order_status_service.get_order_status_by_name('pending')
+        if not order:
+            raise OrderNotFoundException()
+        
+        if order.status_id != status.id:
+            raise HTTPException(            
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Only pending orders can be canceled."
+            )
+        
+        order.status_id = 'canceled'
+        order.updated_at = datetime.now()
