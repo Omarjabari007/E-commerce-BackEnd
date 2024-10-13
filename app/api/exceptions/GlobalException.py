@@ -56,9 +56,16 @@ class OutOfStockException(HTTPException):
         )
 
 class OrderNotFoundException(HTTPException):
-    def __init__(self, item_number: int = None):
+    def __init__(self):
         super().__init__(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Order not found",
+        )
+
+class StatusNotFoundException(HTTPException):
+    def __init__(self):
+        super().__init__(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Status not found",
         )
 

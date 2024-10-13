@@ -1,6 +1,7 @@
+from datetime import datetime
 from uuid import uuid4, UUID
 from typing import Optional, Dict, List
-from app.api.exceptions.GlobalException import OrderNotFoundException, ProductDoesNotExistException, OutOfStockException
+from app.api.exceptions.GlobalException import OrderNotFoundException, ProductDoesNotExistException, OutOfStockException, StatusNotFoundException
 from app.api.services.order_status_service import OrderStatusService
 from app.api.services.product_service import ProductService
 from app.models import Order, OrderProduct, OrderProductResponse, OrderResponse
@@ -62,4 +63,25 @@ class OrderService:
             created_at=order.created_at,
             updated_at=order.updated_at,
             products=product_responses
+        )
+    
+    
+    def update_order_status(self, order_id: UUID, status_name: str) -> OrderResponse:
+        order = self.orders.get(order_id)
+        status = order_status_service.get_order_status_by_name(status_name)
+        if not order:
+            raise OrderNotFoundException()
+        elif not status:
+            raise StatusNotFoundException()
+        
+        order.status_id = status.id
+        order.updated_at = datetime.now()
+
+        return OrderResponse(
+            id=order.id,
+            user_id=order.user_id,
+            status=status.id,
+            total_price=order.total_price,
+            created_at=order.created_at.isoformat(),
+            updated_at=order.updated_at.isoformat()
         )
