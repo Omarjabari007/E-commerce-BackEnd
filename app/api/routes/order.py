@@ -22,7 +22,8 @@ def create_product(orderItems : List[OrderItem]):
     except OutOfStockException as noStock:
         raise noStock
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {str(e)}")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+                            detail=f"An unexpected error occurred: {str(e)}")  
 
     return JSONResponse(
         status_code=status.HTTP_201_CREATED,
@@ -36,7 +37,8 @@ def get_order_details(order_id: UUID):
     except HTTPException as e:
         raise e
     except Exception as e:
-        raise HTTPException(status_code=500, detail="An error occurred while fetching the order details.")
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+                            detail=f"An unexpected error occurred: {str(e)}")
     
     return order_details
 

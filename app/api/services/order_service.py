@@ -14,8 +14,6 @@ class OrderService:
     def __init__(self):
         self.orders: Dict[UUID, Order] = {}
         self.order_products: Dict[UUID, List[OrderProduct]] = {}
-
-
   
     def create_order(self, order_items: List[OrderProductResponse], user_id: Optional[UUID] = None) -> Order:
         total_price = Decimal(0)
