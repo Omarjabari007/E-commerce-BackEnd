@@ -8,6 +8,7 @@ from app.api.exceptions.global_exceptions import (
     EmailAlreadyExistsException,
     UserNotFoundException,
     InvalidUUIDException,
+    MissingFieldException,
 )
 from uuid import UUID
 
@@ -19,6 +20,9 @@ def create_user(user: UserCreateRequest, db: Session = Depends(get_db)):
     service = UserService(db)
     try:
         return service.create_user(user)
+
+    except MissingFieldException as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e.message)
     except InvalidPasswordException as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e.detail)
     except EmailAlreadyExistsException as e:

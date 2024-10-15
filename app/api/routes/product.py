@@ -42,13 +42,10 @@ def create_product(product_data: ProductCreate, db: Session = Depends(get_db)):
         db.refresh(new_product)
 
         return new_product
-    except InvalidProductDataException:
+
+    except ProductAlreadyExistsException:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid date ! "
-        )
-    except ProductValidationException:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid Product ! "
+            status_code=status.HTTP_409_CONFLICT, detail="Product already exists."
         )
 
 
@@ -96,12 +93,12 @@ def update_product(
         )
 
 
-@router.delete("/products/{product_id}")
+@router.delete("/products/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_product(product_id: UUID, db: Session = Depends(get_db)):
     service = ProductService(db)
     try:
         service.delete_product(product_id)
-        return {"detail": "Product deleted successfully."}
+        return
     except ProductNotFoundException:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Product not found."

@@ -78,3 +78,8 @@ class ProductValidationException(HTTPException):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="The provided product is not validated ! .",
         )
+
+
+class MissingFieldException(Exception):
+    def __init__(self, message):
+        self.message = message

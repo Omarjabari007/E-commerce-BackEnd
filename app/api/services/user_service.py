@@ -8,6 +8,7 @@ from app.api.exceptions.global_exceptions import (
     InvalidPasswordException,
     EmailAlreadyExistsException,
     UserNotFoundException,
+    MissingFieldException,
 )
 from uuid import UUID
 from datetime import datetime
@@ -20,6 +21,13 @@ class UserService:
         self.db = db
 
     def create_user(self, user: UserCreateRequest):
+        if not user.username:
+            raise MissingFieldException("Username is required.")
+        if not user.email:
+            raise MissingFieldException("Email is required.")
+        if not user.password:
+            raise MissingFieldException("Password is required.")
+
         if self.db.query(User).filter(User.email == user.email).first():
             raise EmailAlreadyExistsException()
         validate_password(user.password)

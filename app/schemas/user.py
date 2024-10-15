@@ -5,9 +5,9 @@ from typing import Optional
 
 
 class UserCreateRequest(BaseModel):
-    username: str = Field(None)
-    email: EmailStr = Field(None)
-    password: str = Field(None)
+    username: Optional[str]
+    email: Optional[EmailStr]
+    password: Optional[str]
 
 
 class UserResponse(BaseModel):
