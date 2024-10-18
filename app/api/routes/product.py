@@ -25,9 +25,7 @@ from app.models import Product
 router = APIRouter()
 
 
-@router.post(
-    "/products/", response_model=ProductResponse, status_code=status.HTTP_201_CREATED
-)
+@router.post("/", response_model=ProductResponse, status_code=status.HTTP_201_CREATED)
 def create_product(product_data: ProductCreate, db: Session = Depends(get_db)):
     validator = ProductValidator(db)
 
@@ -45,11 +43,11 @@ def create_product(product_data: ProductCreate, db: Session = Depends(get_db)):
 
     except ProductAlreadyExistsException:
         raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT, detail="Product already exists."
+            status_code=status.HTTP_409_CONFLICT, detail="Product, already exists."
         )
 
 
-@router.get("/products/{product_id}", response_model=ProductResponse)
+@router.get("/{product_id}", response_model=ProductResponse)
 def get_product(
     product_id: str,
     db: Session = Depends(get_db),
@@ -71,7 +69,7 @@ def get_product(
         )
 
 
-@router.put("/products/{product_id}", response_model=ProductResponse)
+@router.put("/{product_id}", response_model=ProductResponse)
 def update_product(
     product_id: UUID, product_data: ProductUpdate, db: Session = Depends(get_db)
 ):
@@ -93,7 +91,7 @@ def update_product(
         )
 
 
-@router.delete("/products/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{product_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_product(product_id: UUID, db: Session = Depends(get_db)):
     service = ProductService(db)
     try:
@@ -109,7 +107,7 @@ def delete_product(product_id: UUID, db: Session = Depends(get_db)):
         )
 
 
-@router.get("/products/", response_model=Dict)
+@router.get("/", response_model=Dict)
 def search_products(
     name: Optional[str] = Query(None, description="Filter by product name"),
     min_price: Optional[float] = Query(None, description="Filter by minimum price"),

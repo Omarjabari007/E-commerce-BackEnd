@@ -105,7 +105,7 @@ class ProductService:
 
         return {
             "page": params.page,
-            "total_pages": total_pages,
+            "total_pages ": total_pages,
             "products_per_page": params.page_size,
             "total_products": total_products,
             "products": [ProductResponse.from_orm(product) for product in products],
