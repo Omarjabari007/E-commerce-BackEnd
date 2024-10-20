@@ -4,9 +4,7 @@ from app.api.routes import status
 from app.api.services.order_service import OrderService
 from fastapi import FastAPI, HTTPException, APIRouter
 from typing import List, Optional
-from decimal import Decimal
-from app.models import Order, OrderItem, OrderResponse, Product
-from app.api.services.product_service import ProductService
+from app.models import Order, OrderItem, OrderResponse
 from fastapi.responses import JSONResponse
 
 
@@ -14,7 +12,7 @@ router = APIRouter()
 order_service = OrderService()
 
 @router.post("/orders", response_model=Order)
-def create_product(orderItems : List[OrderItem]):
+def create_order(orderItems : List[OrderItem]):
     try:
         order = order_service.create_order(order_items= orderItems)
     except ProductDoesNotExistException as notExits:

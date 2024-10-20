@@ -3,12 +3,12 @@ from uuid import uuid4, UUID
 from typing import Optional, Dict, List
 from app.api.exceptions.GlobalException import OrderNotFoundException, ProductDoesNotExistException, OutOfStockException, StatusNotFoundException
 from app.api.services.order_status_service import OrderStatusService
-from app.api.services.product_service import ProductService
+#from app.api.services.product_service import ProductService ## waiting for product merge
 from app.models import Order, OrderProduct, OrderProductResponse, OrderResponse
 from decimal import Decimal
 from fastapi import FastAPI, HTTPException, APIRouter, Query
 
-product_service = ProductService()
+#product_service = ProductService() ## waiting for product merge
 order_status_service = OrderStatusService()
 
 class OrderService:
@@ -19,7 +19,8 @@ class OrderService:
     def create_order(self, order_items: List[OrderProductResponse], user_id: Optional[UUID] = None) -> Order:
         total_price = Decimal(0)
         for index, item in enumerate(order_items):
-            product = self.product_service.get_product(item.product_id)
+            product = None
+            #product = self.product_service.get_product(item.product_id) ## waiting for product merge
             if product is None:
                 raise ProductDoesNotExistException(index + 1)
             elif item.quantity > product.stock:
