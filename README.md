@@ -1,4 +1,7 @@
-E-commerce Backend Project with FastAPI and PostgreSQL
+
+
+ ** E-commerce Backend Project with FastAPI and PostgreSQL ** 
+ 
 This is a backend-only e-commerce project built with Python and the FastAPI framework. It is connected to a PostgreSQL database using Docker. This project provides basic e-commerce functionalities, including user and product management, product purchasing, and updating product statuses. This was a practical test of our skills with FastAPI, database management, security, and Docker configuration.
 
 Features
