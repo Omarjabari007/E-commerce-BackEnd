@@ -1,54 +1,58 @@
-# Final-Project---Team-1
+E-commerce Backend Project with FastAPI and PostgreSQL
+This is a backend-only e-commerce project built with Python and the FastAPI framework. It is connected to a PostgreSQL database using Docker. This project provides basic e-commerce functionalities, including user and product management, product purchasing, and updating product statuses. This was a practical test of our skills with FastAPI, database management, security, and Docker configuration.
 
-## Setup Instructions
+Features
+User Management: Register, login, and manage users
+Product Management: CRUD operations for products (create, read, update, delete)
+Purchasing Products: API to purchase products
+Product Status Tracking: View and update product statuses
+Secure API Endpoints: Authentication and authorization for secure access
+Getting Started
+Follow these steps to set up and run the project on your local machine.
 
-### 1. Set up a Virtual Environment
+Prerequisites
+Make sure you have the following installed:
 
-Create a virtual environment using Python’s `venv` module.
+Docker and Docker Compose
+Python 3.8+
+Installation and Setup
+1. Clone the Repository
+bash
+Copy code
+git clone 
+cd PSEU2024
+2. Set Up Environment Variables
+Create a .env file in the project root and add the necessary environment variables for PostgreSQL and the application settings.
 
-```bash
-python3 -m venv venv
-```
+Example .env file:
 
-### 2. Activate the Virtual Environment
+dotenv
+Copy code
+DATABASE_URL=postgresql://user:password@db:5432/ecommerce_db
+SECRET_KEY=your-secret-key
+3. Start the Docker Containers
+Use Docker Compose to build and start the containers.
 
-Activate the virtual environment:
+bash
+Copy code
+docker-compose up --build
+This will:
 
-- On macOS/Linux:
+Set up a PostgreSQL database container
+Launch the FastAPI application container
+The application will be accessible at http://localhost:8000.
 
-  ```bash
-  source venv/bin/activate
-  ```
 
-- On Windows:
-  ```bash
-  .\venv\Scripts\activate
-  ```
+For any questions, please contact Omar Mohammed Karam Abdelfattah Jabari at omarjabari007@example.com.
 
-### 3. Install Dependencies
 
-Install the required Python packages from the `requirements.txt` file.
 
-```bash
-pip install -r requirements.txt
-```
+Enjoy exploring the e-commerce backend!
 
-## How to Run the App
 
-To run the FastAPI app, use the following command:
 
-```bash
-fastapi dev app/main.py
-```
 
-## Environment Variables
 
-The following environment variables should be set in the `.env` file:
 
-- `POSTGRES_USER`: PostgreSQL username (default: `default_user`)
-- `POSTGRES_PASSWORD`: PostgreSQL password (default: `default_password`)
-- `POSTGRES_DB`: PostgreSQL database name (default: `default_db`)
-- `POSTGRES_HOST`: PostgreSQL host (default: `localhost`)
-- `POSTGRES_PORT`: PostgreSQL port (default: `5433`)
 
-You can create a `.env` file in the project root:
+
