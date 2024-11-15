@@ -28,8 +28,8 @@ Make sure you have the following installed:
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/Omarjabari007/PSEU2024.git
-   cd PSEU2024
+   git clone https://github.com/Omarjabari007/E-commerce-BackEnd.git
+   
 
 2. **Set Up Environment Variables**
 
@@ -53,9 +53,10 @@ This will:
 Launch the FastAPI application container
 The application will be accessible at  **http://localhost:8000.**
 
-For any questions, please contact **Omar Mohammed Karam Abdelfattah Jabari** at **omarjabari007@example.com.**
+For any questions, please contact **Omar Mohammed Karam Abdelfattah Jabari** at **omarjabari009@gmail.com.**
 
-Enjoy exploring the e-commerce backend!
+**This project was completed by three students ( Omar , Yasser , Hattem) . We learned to use GitHub to divide tasks, manage branches, and work together in a real-world environment.
+Enjoy exploring the e-commerce backend!**
 
 
 
